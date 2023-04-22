@@ -5,6 +5,18 @@
 <div id="accounts">
   <% @accounts.each do |account| %>
     <%= render account %>
+
+    <% if account.card %>
+      <p>
+        Card: <strong><%= account.card.number %></strong>
+      </p>
+      <p>
+        Expiration date: <strong><%= account.card.end_date %></strong>
+      </p>
+    <% else %>
+      There is no card for the account. <%= link_to "Issue card", new_account_card_path(account.id) %>
+    <% end %>
+
     <p>
       <%= link_to "Show this account", account %>
     </p>

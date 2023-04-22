@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :accounts
+  resources :accounts do
+    resources :cards, except: %i[index show update]
+  end
+
   get 'home/index'
   devise_for :users
   root to: 'home#index'

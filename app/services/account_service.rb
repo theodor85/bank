@@ -57,6 +57,6 @@ class AccountService
   end
 
   def random_account_number
-    10.times.map { rand(10) }.join.to_i
+    10.times.map { rand(10) }.join
   end
 end

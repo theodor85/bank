@@ -26,7 +26,7 @@ class AccountsController < ApplicationController
   def create
     account_service = AccountService.new(Account, current_user.id)
     respond_to do |format|
-      if account_service.create(account_params[:main])
+      if account_service.create(main: account_params[:main])
         format.html { redirect_to account_url(account_service.account), notice: 'Account was successfully created.' }
         format.json { render :show, status: :created, location: account_service.account }
       else

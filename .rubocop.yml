@@ -6,6 +6,7 @@ AllCops:
     - '.git/**/*'
     - 'bin/*'
     - 'db/migrate/*'
+    - 'db/schema.rb'
     - 'config/initializers/*'
 
 Style/Documentation:

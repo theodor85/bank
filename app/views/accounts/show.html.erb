@@ -1,11 +1,33 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @account %>
+<br>
+
+<div>
+  <% if @account.card %>
+    <p>
+      Card: <strong><%= @account.card.number %></strong>
+    </p>
+    <p>
+      Expiration date: <strong><%= @account.card.end_date %></strong>
+    </p>
+    <p>
+      CVV: <strong><%= @account.card.cvv %></strong>
+    </p>
+  <% else %>
+    There is no card for the account. <%= link_to "Issue card", new_account_card_path(@account.id) %>
+  <% end %>
+</div>
+
+<br>
 
 <div>
   <%= link_to "Back to accounts", accounts_path %>
-
   | <%= link_to "Edit account", edit_account_path %>
+</div>
 
+<br>
+
+<div>
   <%= button_to "Destroy this account", @account, method: :delete %>
 </div>
