@@ -1,0 +1,12 @@
+<h1>New account</h1>
+
+<%= form_with model: @account do |form| %>
+  <%= form.check_box :main %> Сделать главным <br>
+  <%= form.submit 'Создать новый счет' %>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Back to accounts", accounts_path %>
+</div>
