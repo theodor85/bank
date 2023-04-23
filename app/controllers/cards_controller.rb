@@ -3,6 +3,7 @@
 class CardsController < ApplicationController
   include CardsHelper
 
+  before_action :authenticate_user!
   before_action :set_account
   before_action :set_card, only: %i[edit destroy]
 
