@@ -46,7 +46,7 @@ class AccountsController < ApplicationController
         format.json { render :show, status: :ok, location: account_service.account }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: account_service..errors, status: :unprocessable_entity }
+        format.json { render json: account_service.errors, status: :unprocessable_entity }
       end
     end
   end

@@ -11,16 +11,17 @@
     </div>
   <% end %>
 
+  <%= form.text_field :operation_type, hidden: true %>
   <% if transfer.operation_type == 'income' %>
 
     <div>
       <%= form.label 'Sum for replenishing', style: "display: block" %>
-      <%= form.text_field :sum %>
+      <%= form.text_field :sum, type: 'number', step: '0.01' %>
     </div>
 
     <div>
       <%= form.label :comment, style: "display: block" %>
-      <%= form.text_field :comment, disable: true %>
+      <%= form.text_field :comment, disabled: true %>
     </div>
 
   <% elsif transfer.operation_type == 'transfer_by_account' %>
@@ -32,7 +33,7 @@
 
     <div>
       <%= form.label "Destination account", style: "display: block" %>
-      <%= form.text_field :dest_account_number %>
+      <%= form.text_field :destination_account %>
     </div>
 
   <% elsif transfer.operation_type == 'transfer_by_card' %>
@@ -68,12 +69,12 @@
 
     <div>
       <%= form.label "Source account", style: "display: block" %>
-      <%= form.collection_select(:account, @user_accounts, :id, :number) %>
+      <%= form.collection_select(:source_account, @user_accounts, :number, :number) %>
     </div>
 
     <div>
       <%= form.label "Destination account", style: "display: block" %>
-      <%= form.collection_select(:account, @user_accounts, :id, :number) %>
+      <%= form.collection_select(:destination_account, @user_accounts, :number, :number) %>
     </div>
 
   <% elsif transfer.operation_type == 'pay' %>

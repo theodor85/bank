@@ -8,8 +8,8 @@ class Transfer < ApplicationRecord
                           transfer_to_yourself
                           pay]
 
-  belongs_to :source_account, class_name: 'Account'
-  belongs_to :dest_account, class_name: 'Account'
+  belongs_to :source_account, class_name: 'Account', optional: true
+  belongs_to :dest_account, class_name: 'Account', optional: true
 
   scope :account_transfers, lambda { |account_id|
     where('source_account_id = ? OR dest_account_id = ?', account_id, account_id)

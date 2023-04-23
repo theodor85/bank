@@ -3,7 +3,7 @@
 class TransfersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_account
-  before_action :set_transfer, only: %i[show edit update destroy]
+  before_action :set_transfer, only: %i[show edit]
   before_action :set_service
 
   def index
@@ -19,48 +19,24 @@ class TransfersController < ApplicationController
       if @service.error
         format.html { redirect_to account_url(@account), notice: @service.error }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new }
       end
     end
   end
 
   def edit; end
 
-  # POST /transfers or /transfers.json
   def create
-    @transfer = Transfer.new(transfer_params)
-
     respond_to do |format|
-      if @transfer.save
-        format.html { redirect_to transfer_url(@transfer), notice: 'Transfer was successfully created.' }
-        format.json { render :show, status: :created, location: @transfer }
+      if @service.create_transfer(transfer_params)
+        format.html { redirect_to account_url(@account), notice: 'Transfer was successfully created.' }
+        format.json { render :show, status: :created, location: @account }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @transfer.errors, status: :unprocessable_entity }
+        format.html do
+          redirect_to new_account_transfer_path(@account, type: transfer_params[:operation_type]), alert: @service.error
+        end
+        format.json { render json: error, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /transfers/1 or /transfers/1.json
-  def update
-    respond_to do |format|
-      if @transfer.update(transfer_params)
-        format.html { redirect_to transfer_url(@transfer), notice: 'Transfer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @transfer }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @transfer.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /transfers/1 or /transfers/1.json
-  def destroy
-    @transfer.destroy
-
-    respond_to do |format|
-      format.html { redirect_to transfers_url, notice: 'Transfer was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -75,8 +51,8 @@ class TransfersController < ApplicationController
   end
 
   def transfer_params
-    params.require(:transfer).permit(:operation_time, :operation_type, :source_acc_id_id, :dest_acc_id_id, :sum,
-                                     :comment)
+    params.require(:transfer).permit(:operation_time, :operation_type, :source_account, :destination_account, :sum,
+                                     :comment, :card_number, :phone_number, :comment)
   end
 
   def set_service

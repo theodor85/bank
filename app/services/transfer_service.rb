@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './transfer_creator'
+
 class TransferService
   attr_reader :error
 
@@ -13,6 +15,34 @@ class TransferService
     return unless check_type_and_set_error(type)
 
     instantiate_new_transfer(type)
+  end
+
+  def create_transfer(params)
+    case params[:operation_type].to_sym
+    in :income
+      @transfer, @error = IncomeCreator.new.call(params, @transfer_model, @account)
+
+    in :transfer_by_account
+      @transfer, @error = ByAccountCreator.new.call(params, @transfer_model, @account)
+
+    in :transfer_by_card
+      @transfer, @error = ByCardCreator.new.call(params, @transfer_model, @account)
+
+    in :transfer_by_phone
+      @transfer, @error = ByPhoneCreator.new.call(params, @transfer_model, @account)
+
+    in :transfer_to_yourself
+      @transfer, @error = ToYourselfCreator.new.call(params, @transfer_model, @account)
+
+    in :pay
+      @transfer, @error = PayCreator.new.call(params, @transfer_model, @account)
+    end
+
+    if @transfer&.persisted?
+      true
+    else
+      false
+    end
   end
 
   private
