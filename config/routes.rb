@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   resources :accounts do
     resources :cards, except: %i[index show update]
+    resources :transfers
   end
 
   get 'home/index'

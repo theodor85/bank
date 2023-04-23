@@ -1,0 +1,96 @@
+<%= form_with(model: [@account, transfer]) do |form| %>
+  <% if transfer.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(transfer.errors.count, "error") %> prohibited this transfer from being saved:</h2>
+
+      <ul>
+        <% transfer.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if transfer.operation_type == 'income' %>
+
+    <div>
+      <%= form.label 'Sum for replenishing', style: "display: block" %>
+      <%= form.text_field :sum %>
+    </div>
+
+    <div>
+      <%= form.label :comment, style: "display: block" %>
+      <%= form.text_field :comment, disable: true %>
+    </div>
+
+  <% elsif transfer.operation_type == 'transfer_by_account' %>
+
+    <div>
+      <%= form.label 'Sum for sending', style: "display: block" %>
+      <%= form.text_field :sum %>
+    </div>
+
+    <div>
+      <%= form.label "Destination account", style: "display: block" %>
+      <%= form.text_field :dest_account_number %>
+    </div>
+
+  <% elsif transfer.operation_type == 'transfer_by_card' %>
+
+    <div>
+      <%= form.label 'Sum for sending', style: "display: block" %>
+      <%= form.text_field :sum %>
+    </div>
+
+    <div>
+      <%= form.label "Destination card", style: "display: block" %>
+      <%= form.text_field :card_number %>
+    </div>
+
+  <% elsif transfer.operation_type == 'transfer_by_phone' %>
+
+    <div>
+      <%= form.label 'Sum for sending', style: "display: block" %>
+      <%= form.text_field :sum %>
+    </div>
+
+    <div>
+      <%= form.label "User's phone", style: "display: block" %>
+      <%= form.text_field :phone_number %>
+    </div>
+
+  <% elsif transfer.operation_type == 'transfer_to_yourself' %>
+
+    <div>
+      <%= form.label 'Sum for sending', style: "display: block" %>
+      <%= form.text_field :sum %>
+    </div>
+
+    <div>
+      <%= form.label "Source account", style: "display: block" %>
+      <%= form.collection_select(:account, @user_accounts, :id, :number) %>
+    </div>
+
+    <div>
+      <%= form.label "Destination account", style: "display: block" %>
+      <%= form.collection_select(:account, @user_accounts, :id, :number) %>
+    </div>
+
+  <% elsif transfer.operation_type == 'pay' %>
+
+    <div>
+      <%= form.label 'Sum for pay', style: "display: block" %>
+      <%= form.text_field :sum %>
+    </div>
+
+    <div>
+      <%= form.label 'What do you want to pay? ', style: "display: block" %>
+      <%= form.text_field :comment %>
+    </div>
+
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

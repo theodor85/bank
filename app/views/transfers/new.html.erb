@@ -1,0 +1,14 @@
+
+<% if @transfer.operation_type == 'pay' %>
+  <h1>Pay for purchases with card #<%= @account.card.number %> </h1>
+<% else %>
+  <h1>New transfer for account #<%= @account.number %> </h1>
+<% end %>
+
+<%= render "form", transfer: @transfer %>
+
+<br>
+
+<div>
+  <%= link_to "Back to accounts", account_path(@account.id) %>
+</div>

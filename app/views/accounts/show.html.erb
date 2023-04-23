@@ -14,11 +14,20 @@
     <p>
       CVV: <strong><%= @account.card.cvv %></strong>
     </p>
+    <%= link_to "Pay for purchases", new_account_transfer_path(@account.id, type: :pay) %>
   <% else %>
     There is no card for the account. <%= link_to "Issue card", new_account_card_path(@account.id) %>
   <% end %>
 </div>
 
+<br>
+<p>
+  <%= link_to "Replenish account", new_account_transfer_path(@account.id, type: :income) %>
+  | <%= link_to "Transfer by account number", new_account_transfer_path(@account.id, type: :transfer_by_account) %>
+  | <%= link_to "Transfer by card number (1% fee)", new_account_transfer_path(@account.id, type: :transfer_by_card) %>
+  | <%= link_to "Transfer by phone number", new_account_transfer_path(@account.id, type: :transfer_by_phone) %>
+  | <%= link_to "Transfer between your accounts", new_account_transfer_path(@account.id, type: :transfer_to_yourself) %>
+</p>
 <br>
 
 <div>
