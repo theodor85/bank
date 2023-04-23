@@ -3,8 +3,10 @@
 Rails.application.routes.draw do
   resources :accounts do
     resources :cards, except: %i[index show update]
-    resources :transfers
+    resources :transfers, except: %i[update destroy]
   end
+
+  resources :profiles, only: %i[show edit update]
 
   get 'home/index'
   devise_for :users

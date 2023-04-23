@@ -1,0 +1,18 @@
+<h1>Editing user's profile</h1>
+
+<%= form_with(model: current_user, url: profile_path(current_user)) do |form| %>
+  <div>
+    <%= form.label 'Tel number:', style: "display: block" %>
+    <%= form.text_field :tel_number %>
+  </div>
+  
+  
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<br>
+<div>
+  <%= link_to "Back to profile", profile_path(current_user) %>
+</div>

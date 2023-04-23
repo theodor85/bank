@@ -1,0 +1,13 @@
+<h1>User's profile</h1>
+
+<div>
+  Email: <strong><%= current_user.email %></strong>
+  <br>
+  Tel number: <strong><%= current_user.tel_number %></strong>
+</div>
+
+<br>
+<div>
+  <%= link_to "Edit profile", edit_profile_path(current_user) %> |
+  <%= link_to "Back to home", home_index_path %>
+</div>
