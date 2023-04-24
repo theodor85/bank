@@ -141,13 +141,13 @@ class ByPhoneCreator < AbstractTransferCreator
 
   def set_destination_account
     user = User.find_by(tel_number: @params[:phone_number])
-    raise Exception 'Phone number not found' unless user
-
+    raise StandardError.new 'Phone number not found' unless user
+    
     @destination_account = Account.joins(:user).where('users.id = ? AND accounts.main = TRUE', user.id).first
 
     return if @destination_account
 
-    raise Exception 'Account with such phone number not found'
+    raise StandardError.new 'Account with such phone number not found'
   end
 
   def validate_operation; end
