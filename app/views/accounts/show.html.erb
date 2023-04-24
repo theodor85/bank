@@ -40,3 +40,26 @@
 <div>
   <%= button_to "Destroy this account", @account, method: :delete %>
 </div>
+
+<h2>List of transfers</h2>
+
+<table>
+  <tr>
+    <th>Time</th>
+    <th>Type</th>
+    <th>Source</th>
+    <th>Destination</th>
+    <th>Sum</th>
+    <th>Comment</th>
+  </tr>
+  <% @transfer_list.each do |item| %>
+    <tr>
+      <td><%= item.operation_time %></td>
+      <td><%= item.operation_type %></td>
+      <td><%= item.source_account_id %></td>
+      <td><%= item.dest_account_id %></td>
+      <td><%= item.sum %></td>
+      <td><%= item.comment %></td>
+    </tr>
+  <% end %>
+</table>

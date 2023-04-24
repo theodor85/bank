@@ -12,7 +12,9 @@ class AccountsController < ApplicationController
   end
 
   # GET /accounts/1 or /accounts/1.json
-  def show; end
+  def show
+    @transfer_list = AccountService.new(Account, current_user.id).transfer_list(@account)
+  end
 
   # GET /accounts/new
   def new

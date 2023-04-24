@@ -50,6 +50,12 @@ class AccountService
     end
   end
 
+  def transfer_list(account)
+    Transfer.left_outer_joins(:source_account, :dest_account)
+      .where('accounts.id = ? OR dest_accounts_transfers.id = ?', account.id, account.id)
+      .order('operation_time DESC')
+  end
+
   private
 
   def clear_main_flag(user_id)
