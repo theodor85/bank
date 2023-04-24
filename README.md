@@ -1,24 +1,28 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## How to launch
 
-Things you may want to cover:
+Clone this repo:
 
-* Ruby version
+    git clone git@github.com:theodor85/bank.git
+    cd bank
 
-* System dependencies
+Launch docker-compose (Postgres database is there):
 
-* Configuration
+    docker-compose up -d
 
-* Database creation
+Create gemset using your favorite virtual environment manager (example for RVM):
 
-* Database initialization
+    rvm use 3.2.1
+    rvm gemset create bank_app
+    rvm gemset use bank_app
 
-* How to run the test suite
+Install dependencies:
 
-* Services (job queues, cache servers, search engines, etc.)
+    bundle install
 
-* Deployment instructions
+You are ready for launch:
 
-* ...
+    rails s
+
+See localhost:3000
