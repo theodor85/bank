@@ -4,14 +4,11 @@ class CardsController < ApplicationController
   include CardsHelper
 
   before_action :authenticate_user!
-  before_action :set_account
-  before_action :set_card, only: %i[edit destroy]
+  before_action :authorize
 
   def new
     @card = Card.new
   end
-
-  def edit; end
 
   def create
     @card = Card.new(account_id: @account.id,
@@ -30,22 +27,13 @@ class CardsController < ApplicationController
     end
   end
 
-  def destroy
-    @card.destroy
-
-    respond_to do |format|
-      format.html { redirect_to cards_url, notice: 'Card was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
   private
 
-  def set_card
-    @card = Card.find(params[:id])
-  end
-
-  def set_account
+  def authorize
     @account = Account.find(params[:account_id])
+
+    unless @account.user == current_user
+      redirect_to accounts_url, alert: 'Access denied'
+    end
   end
 end

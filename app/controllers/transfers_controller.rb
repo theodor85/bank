@@ -2,15 +2,8 @@
 
 class TransfersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_account
-  before_action :set_transfer, only: %i[show edit]
+  before_action :authorize
   before_action :set_service
-
-  def index
-    @transfers = Transfer.account_transfers(@account.id)
-  end
-
-  def show; end
 
   def new
     @transfer = @service.new_transfer(params[:type].to_sym)
@@ -23,8 +16,6 @@ class TransfersController < ApplicationController
       end
     end
   end
-
-  def edit; end
 
   def create
     respond_to do |format|
@@ -42,12 +33,12 @@ class TransfersController < ApplicationController
 
   private
 
-  def set_account
+  def authorize
     @account = Account.find(params[:account_id])
-  end
 
-  def set_transfer
-    @transfer = Transfer.find(params[:id])
+    unless @account.user == current_user
+      redirect_to accounts_url, alert: 'Access denied'
+    end
   end
 
   def transfer_params

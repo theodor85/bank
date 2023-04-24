@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   include AccountsHelper
 
   before_action :authenticate_user!
-  before_action :set_account, only: %i[show edit update]
+  before_action :authorize, only: %i[show edit update]
 
   # GET /accounts or /accounts.json
   def index
@@ -55,8 +55,12 @@ class AccountsController < ApplicationController
 
   private
 
-  def set_account
+  def authorize
     @account = Account.find(params[:id])
+
+    unless @account.user == current_user
+      redirect_to accounts_url, alert: 'Access denied'
+    end
   end
 
   def account_params
