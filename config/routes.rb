@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :accounts do
+  resources :accounts, except: %i[destroy] do
     resources :cards, except: %i[index show update]
     resources :transfers, except: %i[update destroy]
   end
