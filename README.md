@@ -7,22 +7,8 @@ Clone this repo:
     git clone git@github.com:theodor85/bank.git
     cd bank
 
-Launch docker-compose (Postgres database is there):
+Just launch docker-compose and wait for building:
 
-    docker-compose up -d
+    docker-compose up --build
 
-Create gemset using your favorite virtual environment manager (example for RVM):
-
-    rvm use 3.2.1
-    rvm gemset create bank_app
-    rvm gemset use bank_app
-
-Install dependencies:
-
-    bundle install
-
-You are ready for launch:
-
-    rails s
-
-See localhost:3000
+See 0.0.0.0:3000
