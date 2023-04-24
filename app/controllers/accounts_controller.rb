@@ -4,11 +4,11 @@ class AccountsController < ApplicationController
   include AccountsHelper
 
   before_action :authenticate_user!
-  before_action :set_account, only: %i[show edit update destroy]
+  before_action :set_account, only: %i[show edit update]
 
   # GET /accounts or /accounts.json
   def index
-    @accounts = Account.user_accounts(current_user.id)
+    @accounts = Account.user_accounts(current_user.id).includes([:card, :user])
   end
 
   # GET /accounts/1 or /accounts/1.json
@@ -50,16 +50,6 @@ class AccountsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: account_service.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /accounts/1 or /accounts/1.json
-  def destroy
-    @account.destroy
-
-    respond_to do |format|
-      format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
